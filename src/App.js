@@ -1,25 +1,292 @@
-import logo from './logo.svg';
-import './App.css';
+import Header from "./components/Header";
+import InputFields from "./components/InputFields";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	const fields = [
+		{
+			id: "leadtype",
+			name: "Lead Type",
+			type: "dropdown",
+			required: true,
+			options: [
+				{
+					key: "0",
+					value: "Please choose one...",
+				},
+				{
+					key: "1",
+					value: "Open",
+				},
+				{
+					key: "2",
+					value: "Close",
+				},
+			],
+			visibilityCondition: "",
+			visibilityEvent: "",
+			visibilityField: "",
+			visibilityOperation: "",
+			dependencyCondition: "",
+			dependencyEvent: "",
+			multiSelect: true,
+			formCategory: "",
+			navigation: "",
+			apponly: true,
+			selectoption: true,
+		},
+		{
+			id: "corporateid",
+			name: "Corporate Id",
+			type: "text",
+			visibilityCondition: "",
+			visibilityEvent: "",
+			visibilityField: "",
+			visibilityOperation: "",
+			dependencyCondition: "",
+			dependencyEvent: "",
+			defaultValue: "",
+			formCategory: "",
+			navigation: "",
+			apponly: true,
+		},
+		{
+			id: "panno",
+			name: "Pan No",
+			type: "text",
+			visibilityCondition: "",
+			visibilityEvent: "",
+			visibilityField: "",
+			visibilityOperation: "",
+			dependencyCondition: "panauthentication",
+			dependencyEvent: "onchange",
+			min: 0,
+			max: 10,
+			retainInfo: true,
+			formCategory: "",
+			navigation: "",
+			regex: "[A-Z]{5}[0-9]{4}[A-Z]{1}",
+			regexerrormsg: "Enter Valid PAN No",
+			lengtherrormsg: "Pan No should be 10 character",
+			uppercase: true,
+		},
+		{
+			id: "tradename",
+			name: "Trade Name",
+			type: "text",
+			required: true,
+			visibilityCondition: "",
+			visibilityEvent: "",
+			visibilityField: "",
+			visibilityOperation: "",
+			dependencyCondition: "",
+			dependencyEvent: "",
+			defaultValue: "super",
+			formCategory: "",
+			navigation: "",
+			apponly: true,
+			columncount: 2,
+			lowercase: true,
+		},
+		{
+			id: "registeredaddress",
+			name: "Registered Address",
+			type: "text",
+			required: true,
+			visibilityCondition: "",
+			visibilityEvent: "",
+			visibilityField: "",
+			visibilityOperation: "",
+			dependencyCondition: "",
+			dependencyEvent: "",
+			formCategory: "",
+			navigation: "",
+			apponly: true,
+		},
+		{
+			id: "gender",
+			name: "Gender",
+			type: "radio-buttons",
+			required: true,
+			options: [
+				{
+					key: "Male",
+					value: "Male",
+				},
+				{
+					key: "Female",
+					value: "Female",
+				},
+				{
+					key: "Others",
+					value: "Others",
+				},
+			],
+			visibilityCondition: "",
+			visibilityEvent: "",
+			visibilityField: "",
+			visibilityOperation: "",
+			dependencyCondition: "",
+			dependencyEvent: "",
+			defaultValue: "",
+			formCategory: "",
+			navigation: "",
+			apponly: true,
+		},
+		{
+			id: "primarygstn",
+			name: "Primary GSTN",
+			type: "integer",
+			visibilityCondition: "",
+			visibilityEvent: "",
+			visibilityField: "",
+			visibilityOperation: "",
+			dependencyCondition: "",
+			dependencyEvent: "",
+			minvalue: 10,
+			maxvalue: 1000,
+			defaultValue: "740",
+			tagOperation: "",
+			tagAssociatedValue: "",
+			formCategory: "",
+			navigation: "",
+			apponly: true,
+			valueerrormsg: "Min value is 10 and Max value should be 1000",
+			slider: true,
+		},
+	];
+	const inputs = [
+		{
+			id: "leadType",
+			type: "text",
+			label: "Lead Type",
+			min: null,
+			max: null,
+			minLength: 5,
+			maxLength: 10,
+			required: true,
+			disabled: false,
+		},
+		{
+			id: "corporateId",
+			type: "text",
+			label: "Corporate ID",
+			min: null,
+			max: null,
+			minLength: 5,
+			maxLength: 10,
+			required: true,
+			disabled: false,
+		},
+		{
+			id: "panNo",
+			type: "text",
+			label: "PAN No.",
+			min: null,
+			max: null,
+			minLength: 5,
+			maxLength: 10,
+			required: true,
+			disabled: false,
+
+			regexErrorMessage: "Enter valid PAN No.",
+		},
+		{
+			id: "numberOne",
+			type: "text",
+			label: "Number 1",
+			min: null,
+			max: null,
+			minLength: 5,
+			maxLength: 10,
+			required: true,
+			disabled: false,
+		},
+		{
+			id: "numberTwo",
+			type: "text",
+			label: "Number 2",
+			min: null,
+			max: null,
+			minLength: 5,
+			maxLength: 10,
+			required: true,
+			disabled: false,
+		},
+		{
+			id: "addition",
+			type: "text",
+			label: "Addition of 2 Numbers",
+			min: null,
+			max: null,
+			minLength: 5,
+			maxLength: 10,
+			required: true,
+			disabled: false,
+		},
+		{
+			id: "tradeName",
+			type: "text",
+			label: "Trade Name",
+			min: null,
+			max: null,
+			minLength: 5,
+			maxLength: 10,
+			required: true,
+			disabled: false,
+		},
+		{
+			id: "address",
+			type: "text",
+			label: "Registered Address",
+			min: null,
+			max: null,
+			minLength: 5,
+			maxLength: 10,
+			required: true,
+			disabled: false,
+			columnSpan: 2,
+		},
+		{
+			id: "copy",
+			type: "radio",
+			label: "Send a copy to your email",
+			min: null,
+			max: null,
+			minLength: 5,
+			maxLength: 10,
+			required: true,
+			disabled: false,
+		},
+		{
+			id: "gender",
+			type: "text",
+			label: "Gender",
+			min: null,
+			max: null,
+			minLength: 5,
+			maxLength: 10,
+			required: true,
+			disabled: false,
+		},
+		{
+			id: "gstn",
+			type: "text",
+			label: "Primary GSTN",
+			min: null,
+			max: null,
+			minLength: 5,
+			maxLength: 10,
+			required: true,
+			disabled: false,
+		},
+	];
+
+	return (
+		<div>
+			<Header />
+			<InputFields fields={fields} />
+		</div>
+	);
 }
 
 export default App;
