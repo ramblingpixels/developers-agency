@@ -205,7 +205,7 @@ function App() {
 
 		{
 			id: "rfield1",
-			name: "R Field1",
+			name: "R Field 1",
 			type: "text",
 			required: true,
 			visibilityCondition: "",
@@ -237,7 +237,7 @@ function App() {
 		},
 		{
 			id: "rfield3",
-			name: "R field3",
+			name: "R Field 3 ",
 			type: "text",
 			visibilityCondition: "",
 			visibilityEvent: "",
@@ -250,7 +250,7 @@ function App() {
 		},
 		{
 			id: "rfield4",
-			name: "R field4",
+			name: "R Field 4",
 			type: "text",
 			visibilityCondition: "",
 			visibilityEvent: "",

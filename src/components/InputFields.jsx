@@ -8,7 +8,7 @@ const InputFields = ({ fields }) => {
 	const [panValue, setPANValue] = useState("");
 	const [panError, setPANError] = useState("");
 	const [showCheck, setShowCheck] = useState(false);
-	const [divs, setDivs] = useState([{ id: 1, content: "Div 1" }]);
+	const [divs, setDivs] = useState([{ id: 1 }]);
 	const [sliderValue, setSliderValue] = useState(10);
 
 	const validateInput = (value, setInputValue, setErrorMessage) => {
@@ -41,7 +41,7 @@ const InputFields = ({ fields }) => {
 	};
 
 	const handleAddDiv = () => {
-		const newDiv = { id: divs.length + 1, content: `Div ${divs.length + 1}` };
+		const newDiv = { id: divs.length + 1 };
 		setDivs([...divs, newDiv]);
 	};
 
@@ -88,18 +88,22 @@ const InputFields = ({ fields }) => {
 						></input>
 					</div>
 
-					<div class="full-input">
-						<label for="panNo">{fields[2].name}</label>
-						<input
-							type="text"
-							name="panNo"
-							required={fields[2].required}
-							value={panValue}
-							onChange={(e) => validatePAN(e.target.value)}
-						></input>
-						<p> {showCheck ? "correct" : ""}</p>
+					<div class="full-input pan-input">
+						<div>
+							<label for="panNo">{fields[2].name}</label>
+							<input
+								type="text"
+								name="panNo"
+								required={fields[2].required}
+								value={panValue}
+								onChange={(e) => validatePAN(e.target.value)}
+							></input>
+						</div>
+						<div>
+							<p> {showCheck ? "correct" : ""}</p>
 
-						<p style={{ color: "red" }}>{panError}</p>
+							<p style={{ color: "red" }}>{panError}</p>
+						</div>
 					</div>
 				</div>
 
@@ -142,7 +146,7 @@ const InputFields = ({ fields }) => {
 
 				{/* Row 3 */}
 				<div>
-					<div class="full-input">
+					<div class="full-input" style={{ flex: 1 }}>
 						<label for="trade">{fields[6].name}</label>
 						<input
 							type="text"
@@ -151,7 +155,7 @@ const InputFields = ({ fields }) => {
 						></input>
 					</div>
 
-					<div class="full-input">
+					<div class="full-input " style={{ flex: `${fields[7].columncount}` }}>
 						<label for="address">{fields[7].name}</label>
 						<input
 							type="text"
@@ -161,8 +165,8 @@ const InputFields = ({ fields }) => {
 					</div>
 				</div>
 
-				<div className="row-3">
-					<div>
+				<div className="row-4">
+					<div className="checkbox">
 						<input type="checkbox" />
 						<label htmlFor="">Send a copy to your email</label>
 					</div>
@@ -183,28 +187,55 @@ const InputFields = ({ fields }) => {
 
 					<div>
 						<p>{fields[9].name}</p>
-						<label>Current Value: {sliderValue}</label>
-						<div></div>
-						<label>{fields[9].minvalue}</label>
+						<label className="current-slider-value">{sliderValue}</label>
 
 						<input
+							className="slider"
 							type="range"
 							min={10}
 							max={1000}
 							value={sliderValue}
 							onChange={handleSliderChange}
 						/>
-
-						<label>{fields[9].maxvalue}</label>
+						<div className="slider-min-max">
+							<label>{fields[9].minvalue}</label>
+							<label>{fields[9].maxvalue}</label>
+						</div>
 					</div>
 				</div>
 
-				<div>
-					<button onClick={handleAddDiv}>Add Div</button>
+				<div className="r-field-div">
+					<button className="add-btn" onClick={handleAddDiv}>
+						+
+					</button>
 					{divs.map((div) => (
-						<div key={div.id}>
-							<p>{div.content}</p>
-							<button onClick={() => handleDeleteDiv(div.id)}>Delete</button>
+						<div key={div.id} className="r-field-item">
+							<div className="r-field-list">
+								<p>{div.id}</p>
+								<div>
+									<label htmlFor="">{fields[10].name}</label>
+									<input type="text" required />
+								</div>
+								<div>
+									<label htmlFor="">{fields[11].name}</label>
+									<input type="text" />
+								</div>
+								<div>
+									<label htmlFor="">{fields[12].name}</label>
+									<input type="text" />
+								</div>
+								<div>
+									<label htmlFor="">{fields[13].name}</label>
+									<input type="text" />
+								</div>
+
+								<button
+									onClick={() => handleDeleteDiv(div.id)}
+									className="delete-btn"
+								>
+									Delete
+								</button>
+							</div>
 						</div>
 					))}
 				</div>

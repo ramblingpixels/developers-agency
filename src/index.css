@@ -1,10 +1,12 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;500;800&display=swap");
 
 body {
 	background-color: grey;
 	margin: 0;
+	font-family: Poppins;
 }
 
 .header-content {
@@ -27,6 +29,10 @@ form > div {
 	margin-top: 30px;
 }
 
+.pan-input {
+	display: flex;
+}
+
 .input-fields {
 	background-color: #fff;
 	margin: 20px;
@@ -38,6 +44,7 @@ form > div {
 	display: inline-block;
 	padding: 3px;
 	border: 2px solid grey;
+	border-radius: 5px;
 }
 input {
 	outline: none;
@@ -65,11 +72,59 @@ p {
 	margin: 0;
 }
 
-.row-3 {
+.row-4 {
 	width: 100%;
 	justify-content: space-between;
 }
 
-.row-3 div {
+.row-4 div {
 	flex: 1;
+}
+
+.checkbox {
+	display: flex;
+	align-items: flex-start;
+}
+
+.slider {
+	width: 100%;
+}
+
+.current-slider-value {
+	text-align: center;
+}
+
+.slider-min-max {
+	display: flex;
+	justify-content: space-between;
+}
+
+.r-field-div {
+	position: relative;
+	display: block;
+}
+/* .r-field-item {
+	display: flex;
+	align-items: center;
+} */
+
+.r-field-item input {
+	border: 1px solid black;
+}
+
+.add-btn {
+	position: absolute;
+	right: 20px;
+}
+
+.r-field-list {
+	display: flex;
+	list-style-type: decimal;
+	align-items: center;
+	gap: 20px;
+}
+
+.delete-btn {
+	height: 70%;
+	padding: 5px;
 }
