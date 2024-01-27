@@ -11,9 +11,17 @@ const InputFields = ({ fields }) => {
 	const [divs, setDivs] = useState([{ id: 1 }]);
 	const [sliderValue, setSliderValue] = useState(10);
 	const [collapse, setCollapse] = useState(true);
+	const [formValues, setFormValues] = useState({
+		GSTN: "",
+		Number1: "",
+		Number2: "",
+		Addition: "",
+		PAN: "",
+	});
 
-	const validateInput = (value, setInputValue, setErrorMessage) => {
-		const numericValue = value.replace(/[^0-9]/g, "");
+	const validateInput = (e, setInputValue, setErrorMessage, id) => {
+		const number = e.target.value;
+		const numericValue = number.replace(/[^0-9]/g, "");
 		setInputValue(numericValue);
 
 		if (numericValue !== "" && isNaN(numericValue)) {
@@ -21,15 +29,38 @@ const InputFields = ({ fields }) => {
 		} else {
 			setErrorMessage("");
 		}
+
+		const { value } = e.target;
+
+		if (id === "number1") {
+			setFormValues((prevValues) => ({
+				...prevValues,
+				Number1: value,
+			}));
+		} else if (id === "number2") {
+			setFormValues((prevValues) => ({
+				...prevValues,
+				Number2: value,
+			}));
+		}
 	};
 
-	const validatePAN = (value) => {
+	useEffect(() => {
+		setFormValues((prevValues) => ({
+			...prevValues,
+			Addition: parseInt(input1Value) + parseInt(input2Value),
+		}));
+	}, [input1Value, input2Value]);
+
+	const validatePAN = (e) => {
 		const panRegex = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
 
-		if (value.length < 10) {
+		const pan = e.target.value;
+
+		if (pan.length < 10) {
 			setPANError(fields[2].lengtherrormsg);
 			setShowCheck(false);
-		} else if (!panRegex.test(value)) {
+		} else if (!panRegex.test(pan)) {
 			setPANError(fields[2].regexerrormsg);
 			console.log(panError);
 			setShowCheck(false);
@@ -38,7 +69,13 @@ const InputFields = ({ fields }) => {
 			setShowCheck(true);
 		}
 
-		setPANValue(value.toUpperCase());
+		setPANValue(pan.toUpperCase());
+
+		const { value } = e.target;
+		setFormValues((prevValues) => ({
+			...prevValues,
+			PAN: value,
+		}));
 	};
 
 	const handleAddDiv = () => {
@@ -53,10 +90,16 @@ const InputFields = ({ fields }) => {
 
 	const handleSliderChange = (event) => {
 		setSliderValue(parseInt(event.target.value, 10));
+		const { value } = event.target;
+		setFormValues((prevValues) => ({
+			...prevValues,
+			GSTN: value,
+		}));
 	};
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
+		console.log(formValues);
 	};
 
 	const handleCollapse = () => {
@@ -67,13 +110,17 @@ const InputFields = ({ fields }) => {
 		console.log(collapse);
 	}, [collapse]);
 
+	const handleChange = (event) => {
+		const { name, value } = event.target;
+		setFormValues((prevValues) => ({
+			...prevValues,
+			[name]: value,
+		}));
+	};
+
 	return (
 		<div className="input-fields px-100">
-			<form
-				action=""
-				className="grid grid-cols-3 gap-4"
-				onSubmit={handleSubmit}
-			>
+			<form action="" className="grid grid-cols-3 gap-4">
 				{/* Row 1 */}
 
 				<div>
@@ -81,7 +128,7 @@ const InputFields = ({ fields }) => {
 						<label for="leads">
 							{fields[0].name} <span class="required-indicator">*</span>
 						</label>
-						<select id="leads" name="leads" required>
+						<select id="leads" name="leads" required onChange={handleChange}>
 							{fields[0].options.map((option) => (
 								<option value={option.value} key={option.key}>
 									{option.value}
@@ -94,7 +141,12 @@ const InputFields = ({ fields }) => {
 						<label for="corpId">
 							{fields[1].name} <span class="required-indicator">*</span>
 						</label>
-						<input type="text" name="corpId" required></input>
+						<input
+							type="text"
+							name="corpId"
+							required
+							onChange={handleChange}
+						></input>
 					</div>
 
 					<div class="full-input pan-input">
@@ -107,7 +159,7 @@ const InputFields = ({ fields }) => {
 								name="panNo"
 								required
 								value={panValue}
-								onChange={(e) => validatePAN(e.target.value)}
+								onChange={(e) => validatePAN(e)}
 							></input>
 						</div>
 						<div>
@@ -130,7 +182,7 @@ const InputFields = ({ fields }) => {
 							name="number1"
 							required
 							onChange={(e) =>
-								validateInput(e.target.value, setInput1Value, setErrorMessage1)
+								validateInput(e, setInput1Value, setErrorMessage1, fields[3].id)
 							}
 						></input>
 					</div>
@@ -145,7 +197,7 @@ const InputFields = ({ fields }) => {
 							name="number2"
 							required
 							onChange={(e) =>
-								validateInput(e.target.value, setInput2Value, setErrorMessage2)
+								validateInput(e, setInput2Value, setErrorMessage2, fields[4].id)
 							}
 						></input>
 					</div>
@@ -166,14 +218,24 @@ const InputFields = ({ fields }) => {
 						<label for="trade">
 							{fields[6].name} <span class="required-indicator">*</span>
 						</label>
-						<input type="text" name="trade" required></input>
+						<input
+							type="text"
+							name="trade"
+							required
+							onChange={handleChange}
+						></input>
 					</div>
 
 					<div class="full-input " style={{ flex: `${fields[7].columncount}` }}>
 						<label for="address">
 							{fields[7].name} <span class="required-indicator">*</span>
 						</label>
-						<input type="text" name="address" required></input>
+						<input
+							type="text"
+							name="address"
+							required
+							onChange={handleChange}
+						></input>
 					</div>
 				</div>
 
@@ -195,6 +257,7 @@ const InputFields = ({ fields }) => {
 									name={fields[8].name}
 									className="radio-input"
 									required
+									onChange={handleChange}
 								/>
 								<label htmlFor={option.value}>{option.value}</label>
 							</div>
@@ -239,7 +302,7 @@ const InputFields = ({ fields }) => {
 									<label htmlFor="">
 										{fields[11].name} <span class="required-indicator">*</span>
 									</label>
-									<input type="text" />
+									<input type="text" required />
 								</div>
 								<div>
 									<label htmlFor="">{fields[12].name}</label>
@@ -295,6 +358,15 @@ const InputFields = ({ fields }) => {
 								""
 							)
 						)}
+					</div>
+				</div>
+
+				<div className="footer-buttons">
+					<button className="back-btn">Back</button>
+					<div>
+						<button className="submit-btn" onClick={handleSubmit}>
+							Submit
+						</button>
 					</div>
 				</div>
 			</form>

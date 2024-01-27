@@ -200,8 +200,26 @@ p {
 	border: 1px solid grey;
 }
 
-hr {
-	margin-left: 20px;
-	margin-right: 20px;
-	border: 2px solid orange;
+.footer-buttons {
+	display: flex;
+	justify-content: space-between;
+}
+
+.footer-buttons button {
+	padding: 5px 10px;
+	border-radius: 5px;
+}
+
+.back-btn {
+	border: none;
+}
+
+.submit-btn {
+	border: none;
+	color: #fff;
+	background-color: orange;
+}
+
+.submit-btn:hover {
+	cursor: pointer;
 }
