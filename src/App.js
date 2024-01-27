@@ -132,7 +132,6 @@ function App() {
 			formCategory: "",
 			navigation: "",
 			apponly: true,
-
 			lowercase: true,
 		},
 		{

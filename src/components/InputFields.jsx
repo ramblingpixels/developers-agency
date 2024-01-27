@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const InputFields = ({ fields }) => {
 	const [input1Value, setInput1Value] = useState("");
@@ -10,6 +10,7 @@ const InputFields = ({ fields }) => {
 	const [showCheck, setShowCheck] = useState(false);
 	const [divs, setDivs] = useState([{ id: 1 }]);
 	const [sliderValue, setSliderValue] = useState(10);
+	const [collapse, setCollapse] = useState(true);
 
 	const validateInput = (value, setInputValue, setErrorMessage) => {
 		const numericValue = value.replace(/[^0-9]/g, "");
@@ -58,6 +59,14 @@ const InputFields = ({ fields }) => {
 		event.preventDefault();
 	};
 
+	const handleCollapse = () => {
+		setCollapse(!collapse);
+	};
+
+	useEffect(() => {
+		console.log(collapse);
+	}, [collapse]);
+
 	return (
 		<div className="input-fields px-100">
 			<form
@@ -69,8 +78,10 @@ const InputFields = ({ fields }) => {
 
 				<div>
 					<div class="full-input">
-						<label for="leads">{fields[0].name}</label>
-						<select id="leads" name="leads" required={fields[0].required}>
+						<label for="leads">
+							{fields[0].name} <span class="required-indicator">*</span>
+						</label>
+						<select id="leads" name="leads" required>
 							{fields[0].options.map((option) => (
 								<option value={option.value} key={option.key}>
 									{option.value}
@@ -80,28 +91,27 @@ const InputFields = ({ fields }) => {
 					</div>
 
 					<div class="full-input">
-						<label for="corpId">{fields[1].name}</label>
-						<input
-							type="text"
-							name="corpId"
-							required={fields[1].required}
-						></input>
+						<label for="corpId">
+							{fields[1].name} <span class="required-indicator">*</span>
+						</label>
+						<input type="text" name="corpId" required></input>
 					</div>
 
 					<div class="full-input pan-input">
 						<div>
-							<label for="panNo">{fields[2].name}</label>
+							<label for="panNo">
+								{fields[2].name} <span class="required-indicator">*</span>
+							</label>
 							<input
 								type="text"
 								name="panNo"
-								required={fields[2].required}
+								required
 								value={panValue}
 								onChange={(e) => validatePAN(e.target.value)}
 							></input>
 						</div>
 						<div>
-							<p> {showCheck ? "correct" : ""}</p>
-
+							<p style={{ color: "green" }}> {showCheck ? "Correct" : ""}</p>
 							<p style={{ color: "red" }}>{panError}</p>
 						</div>
 					</div>
@@ -111,12 +121,14 @@ const InputFields = ({ fields }) => {
 
 				<div>
 					<div class="full-input">
-						<label for="number1">{fields[3].name}</label>
+						<label for="number1">
+							{fields[3].name} <span class="required-indicator">*</span>
+						</label>
 						<input
 							value={input1Value}
 							type="text"
 							name="number1"
-							required={fields[3].required}
+							required
 							onChange={(e) =>
 								validateInput(e.target.value, setInput1Value, setErrorMessage1)
 							}
@@ -124,12 +136,14 @@ const InputFields = ({ fields }) => {
 					</div>
 
 					<div class="full-input">
-						<label for="number2">{fields[4].name}</label>
+						<label for="number2">
+							{fields[4].name} <span class="required-indicator">*</span>
+						</label>
 						<input
 							value={input2Value}
 							type="text"
 							name="number2"
-							required={fields[4].required}
+							required
 							onChange={(e) =>
 								validateInput(e.target.value, setInput2Value, setErrorMessage2)
 							}
@@ -137,7 +151,9 @@ const InputFields = ({ fields }) => {
 					</div>
 
 					<div class="full-input">
-						<label for="number3">{fields[5].name}</label>
+						<label for="number3">
+							{fields[5].name} <span class="required-indicator">*</span>
+						</label>
 						<p className="addition-result">
 							{parseInt(input1Value) + parseInt(input2Value)}
 						</p>
@@ -147,38 +163,38 @@ const InputFields = ({ fields }) => {
 				{/* Row 3 */}
 				<div>
 					<div class="full-input" style={{ flex: 1 }}>
-						<label for="trade">{fields[6].name}</label>
-						<input
-							type="text"
-							name="trade"
-							required={fields[1].required}
-						></input>
+						<label for="trade">
+							{fields[6].name} <span class="required-indicator">*</span>
+						</label>
+						<input type="text" name="trade" required></input>
 					</div>
 
 					<div class="full-input " style={{ flex: `${fields[7].columncount}` }}>
-						<label for="address">{fields[7].name}</label>
-						<input
-							type="text"
-							name="address"
-							required={fields[1].required}
-						></input>
+						<label for="address">
+							{fields[7].name} <span class="required-indicator">*</span>
+						</label>
+						<input type="text" name="address" required></input>
 					</div>
 				</div>
 
 				<div className="row-4">
 					<div className="checkbox">
-						<input type="checkbox" />
+						<input type="checkbox" className="checkbox-input" />
 						<label htmlFor="">Send a copy to your email</label>
 					</div>
 
 					<div>
-						<p>{fields[8].name}</p>
+						<p>
+							{fields[8].name} <span class="required-indicator">*</span>
+						</p>
 						{fields[8].options.map((option) => (
-							<div className="radio-option">
+							<div className="radio-option" key={option.key}>
 								<input
 									type="radio"
 									value={option.value}
 									name={fields[8].name}
+									className="radio-input"
+									required
 								/>
 								<label htmlFor={option.value}>{option.value}</label>
 							</div>
@@ -204,6 +220,7 @@ const InputFields = ({ fields }) => {
 					</div>
 				</div>
 
+				{/* Repeaters */}
 				<div className="r-field-div">
 					<button className="add-btn" onClick={handleAddDiv}>
 						+
@@ -213,11 +230,15 @@ const InputFields = ({ fields }) => {
 							<div className="r-field-list">
 								<p>{div.id}</p>
 								<div>
-									<label htmlFor="">{fields[10].name}</label>
+									<label htmlFor="">
+										{fields[10].name} <span class="required-indicator">*</span>
+									</label>
 									<input type="text" required />
 								</div>
 								<div>
-									<label htmlFor="">{fields[11].name}</label>
+									<label htmlFor="">
+										{fields[11].name} <span class="required-indicator">*</span>
+									</label>
 									<input type="text" />
 								</div>
 								<div>
@@ -238,6 +259,43 @@ const InputFields = ({ fields }) => {
 							</div>
 						</div>
 					))}
+				</div>
+
+				{/* Visibility */}
+
+				<div className="visibility-div">
+					<div className="dropdown-div">
+						<p>Visibility</p>
+						<span
+							onClick={handleCollapse}
+							className="dropdown-btn"
+							style={{
+								transform: ` ${collapse ? "rotate(90deg)" : "rotate(-90deg)"}`,
+								transition: "transform 0.3s ease",
+							}}
+						>
+							{">"}
+						</span>
+					</div>
+					<div className={`form-category ${collapse ? "hide" : "show"}`}>
+						{fields.map((field) =>
+							field.formCategory === "Visibility" ? (
+								<div>
+									<p>
+										{field.name}{" "}
+										{field.required ? (
+											<span class="required-indicator">*</span>
+										) : (
+											""
+										)}
+									</p>
+									<input type={field.type} />
+								</div>
+							) : (
+								""
+							)
+						)}
+					</div>
 				</div>
 			</form>
 		</div>
